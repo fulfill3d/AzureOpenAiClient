@@ -31,5 +31,17 @@ namespace Client
 
             return await Task.WhenAll(tasks);
         }
+        
+        public async Task<string> GetResponseAsync(string prompt)
+        {
+            var completionsOptions = new CompletionsOptions
+            {
+                Prompts = { prompt },
+                MaxTokens = 250
+            };
+
+            var response = await _client.GetCompletionsAsync(_options.DeploymentName, completionsOptions);
+            return response.Value.Choices[0].Text;
+        }
     }
 }
